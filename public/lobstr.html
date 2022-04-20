@@ -1,0 +1,135 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="https://unpkg.com/@albedo-link/intent@0.11.2/lib/albedo.intent.js"></script>
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="./style.css" />
+    <meta property="og:title" content="Stellar Hot Potato - Welcome" />
+    <meta property="og:site_name" content="Stellar Hot Potato - Welcome" />
+    <meta property="og:url" content="" />
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="https://upload.wikimedia.org/wikipedia/commons/9/98/Kawaii_potato.png"
+    />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-3W5NRBGBVQ"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/10.0.1/stellar-sdk.js"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-3W5NRBGBVQ");
+    </script>
+    <script
+      src="https://browser.sentry-cdn.com/6.19.4/bundle.tracing.min.js"
+      integrity="sha384-jOcFBg8Z1Va0m5A9vgDFAWt1YIXDiWKhNWXiq3mahBOnwt1FgKZA4J+sdJ2bXRcj"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      Sentry.init({
+        dsn: "https://a52603c3cb974b34938626e37e6a454a@o1192160.ingest.sentry.io/6313745",
+        release: "hot-potato@1.0.0",
+        integrations: [new Sentry.BrowserTracing()],
+        tracesSampleRate: 1.0,
+      });
+    </script>
+    <script src="../static/utils.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Lobstr Vault - Transactions</h1>
+      <p>
+        Welcome to the Lobstr Vault section. In this section we're going to get
+        the signature from your account and pass it over to the next person. 
+      </p>
+      <p><b>1. Important:</b> If you get an error, <b>Transaction failed</b>, too few signatures / wrong network. This is great! Don't close the screen</p>
+      <p><b>2.You will see a signed XDR box. Copy the XDR you have here into the text-area below!</b></p>
+      <p>Once you've copied it, submit the XDR in order to generate a unique URL for the recipient</p>
+      <p><b>Make sure to enable popups for this website!</b></p>
+
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea id="xdr" class="materialize-textarea"></textarea>
+              <label for="first_name">XDR Contents</label>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <button
+        onclick="submitToSite()"
+        class="waves-effect waves-light btn-large"
+      >
+        Pass with Albedo
+      </button>
+
+      <!-- Modal Structure -->
+      <div id="modal1" class="modal">
+        <div class="modal-content">
+          <h4 class="modal-header">Modal Header</h4>
+          <p class="modal-text">A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat"
+            >Close</a
+          >
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    let elems = document.querySelectorAll(".modal");
+    let instance = M.Modal.init(elems, { dismissible: false });
+    const header = document.querySelector(".modal-header");
+    const header_text = document.querySelector(".modal-text");
+    
+    
+    const submitToSite = async function(){
+      const xdr = document.querySelector("#xdr").value
+      const issuer = "GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD"
+      
+      const safety_check = checkValidSignature(xdr, issuer)
+      console.log(safety_check)
+      
+      if(safety_check == undefined){
+        header.innerText = "Invalid Transaction!";
+        header_text.innerText = "The transaction you pasted is invalid. Make sure you've pasted the transaction's XDR correctly."
+        instance[0].open();
+        return
+      } else if(safety_check == true) {
+        header.innerText = "Invalid Transaction!";
+        header_text.innerText = "The transaction you pasted is not related to Hot Potato! Make sure you've pasted the transaction's XDR correctly."
+        instance[0].open();
+        return
+      }
+      
+      const full_url = `${window.location.hostname}/complete-pass?xdr=${btoa(xdr)}`;
+      const shortened_url = await shortenUrl(full_url);
+      console.log(shortened_url)
+      header.innerText = "You are on step closer to sending a potato!";
+      header_text.innerText = `In order to complete the pass, a signature is required from the recipient to claim the potato. They can do it at the following url: ${shortened_url}`;
+      instance[0].open();
+    }
+    
+    
+  </script>
+</html>

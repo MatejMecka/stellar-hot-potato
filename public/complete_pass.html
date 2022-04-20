@@ -1,0 +1,246 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="https://unpkg.com/@albedo-link/intent@0.11.2/lib/albedo.intent.js"></script>
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="./style.css" />
+    <meta property="og:title" content="Stellar Hot Potato - Welcome" />
+    <meta property="og:site_name" content="Stellar Hot Potato - Welcome" />
+    <meta property="og:url" content="" />
+    <meta
+      property="og:description"
+      content="You've been invited to accept a Hot Potato! Come join us :D"
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="https://upload.wikimedia.org/wikipedia/commons/9/98/Kawaii_potato.png"
+    />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-3W5NRBGBVQ"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/10.0.1/stellar-sdk.js"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-3W5NRBGBVQ");
+    </script>
+  <script
+    src="https://browser.sentry-cdn.com/6.19.4/bundle.tracing.min.js"
+    integrity="sha384-jOcFBg8Z1Va0m5A9vgDFAWt1YIXDiWKhNWXiq3mahBOnwt1FgKZA4J+sdJ2bXRcj"
+    crossorigin="anonymous"
+  ></script>
+    <script>
+    Sentry.init({
+      dsn: "https://a52603c3cb974b34938626e37e6a454a@o1192160.ingest.sentry.io/6313745",
+      release: "hot-potato@1.0.0",
+      integrations: [new Sentry.BrowserTracing()],
+      tracesSampleRate: 1.0,
+    });
+    </script>
+    <script src="../static/utils.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Welcome to the final step! Accept Potato?</h1>
+      <p>
+        If you've received this link you are invited to participate in the
+        Stellar Hot Potato. The goal of this fun game is to pass the NFT potato
+        to as many people as possible. By accepting the potato you will have 2
+        options:
+      </p>
+      <p><b>1. Pass the potato to someone else</b></p>
+      <p><b>2.Let the potato expire, therefore burning it forever</b></p>
+      <p>
+        This url contains a special transaction that will allow you to accept
+        the potato. All that is required from you is to sign the transaction
+        with your Albedo account. When you're ready feel free to click the
+        button to begin the procedure
+      </p>
+      <p><b>Make sure to enable popups for this website!</b></p>
+      <button
+        onclick="handleTransaction()"
+        class="waves-effect waves-light btn-large"
+      >
+        Pass with Albedo
+      </button>
+
+      <!-- Modal Structure -->
+      <div id="modal1" class="modal">
+        <div class="modal-content">
+          <h4 class="modal-header">Modal Header</h4>
+          <p class="modal-text">A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat"
+            >Close</a
+          >
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    const horizon_url = "https://horizon.stellar.org/accounts/";
+    const issuer = "GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD";
+
+    window.document.onload = function (e) {};
+
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(prop),
+    });
+
+    const handleTransaction = async function () {
+      // Find Modal Elements
+      let elems = document.querySelectorAll(".modal");
+      let instance = M.Modal.init(elems, { dismissible: false });
+      const header = document.querySelector(".modal-header");
+      const header_text = document.querySelector(".modal-text");
+
+      // Get User's public key
+      await albedo
+        .publicKey({
+          token: "gOe2GgetOcIOkllLyKhooElhwICBKF1arhUJAdH1Vs0=",
+        })
+        .then(async function (res) {
+          // Verify if they have lobstr
+          console.log(res.pubkey, res.signed_message, res.signature);
+          fetch(`${horizon_url}${res.pubkey}`)
+            .then((res) => res.json())
+            .then((data) => {
+              data.signers.forEach((elem) => {
+                console.log(elem.key);
+                if (
+                  elem.key ==
+                  "GA2T6GR7VXXXBETTERSAFETHANSORRYXXXPROTECTEDBYLOBSTRVAULT"
+                ) {
+                  // Send a Request with the XDR to Lobstr Vault and show a notification
+                  const options = {
+                    method: "POST",
+                    headers: { "content-type": "application/json" },
+                    body: JSON.Stringify({ xdr: atob(params.xdr) }),
+                  };
+
+                  fetch("https://vault.lobstr.co/api/transactions/", options)
+                    .then((response) => response.json())
+                    .then((response) => {
+                      console.log(response);
+                      header.innerText =
+                        "Transaction has been sent to Lobstr Vault!";
+                      header_text.innerText =
+                        "It has been detected that you're losing LOBSTR Vault. In order to accept the potato, you will need to confirm and submit the transaction on your mobile device.";
+                    })
+                    .catch((err) => {
+                      header.innerText = "Ooops. Encountered an error >.<";
+                      header_text.innerText =
+                        "There was an error submitting to Lobstr Vault. Check with Nesho what went wrong.";
+                    });
+                  instance[0].open();
+                  return;
+                }
+              });
+            });
+        }).catch((err) => {
+            header.innerText = "You've closed the Albedo window";
+            header_text.innerText = `The albedo window has been closed.`;
+            instance[0].open();
+            console.log(err);
+          });
+      
+      // Submit Transaction with Albedo
+      let safety_check = false
+      
+      try{
+        safety_check = checkValidSignature(atob(params.xdr), issuer)
+      } catch(err) {
+        header.innerText = "Ooops. Encountered an error >.<";
+        header_text.innerText = `Send this to Nesho: ${err["message"]} and mention how to reproduce :)`;
+        instance[0].open();
+      }
+      
+      if (!safety_check) {
+        await albedo
+          .tx({
+            xdr: atob(params.xdr),
+            network: "public",
+            submit: "true",
+          })
+          .then((res) => {
+            console.log(
+              res.xdr,
+              res.tx_hash,
+              res.signed_envelope_xdr,
+              res.network,
+              res.result
+            );
+            header.innerText = "🎉 Potato succesfully accepted! 🎉";
+            header_text.innerText = `Congragulations! You are now a proud owner of a hot potato. If you want to pass the potato to someone else the first thing you'll need to do is retrieve their Stellar Public Key. Once you've done that you visit ${location.hostname} to generate a transaction they can use to participate in the experiment. Have fun <3 - Nesho`;
+            instance[0].open();
+          })
+          .catch((err) => {
+            header.innerText = "Ooops. Encountered an error >.<";
+            Sentry.captureMessage(JSON.stringify(err))
+            Sentry.captureMessage(err["ext"])
+            Sentry.captureMessage(err["ext"])
+            Sentry.captureMessage(err["ext"]["message"])
+            if(err["ext"]["extras"] != undefined){
+              if(err["ext"]["message"] == "Action request was rejected by the user"){
+                header_text.innerText = `You've closed the Albedo Window.`;
+                instance[0].open();
+                return
+              }
+              
+              if(err["ext"]["extras"]["result_codes"] == "tx_bad_seq"){
+                header_text.innerText = `Invalid Sequence Number! Ask the Sender for a new transaction number.`;
+                instance[0].open();
+                return
+              }
+
+              if(err["ext"]["extras"]["result_codes"] == "tx_bad_auth"){
+                header_text.innerText = `The transaction failed because of either invalid signatures, or it ran on the wrong network. Try to sign the transaction with the proper key, if this fails contact Nesho on Discord or @matejmecka on Twitter.`;
+                instance[0].open();
+                return
+              }
+
+
+              if(err["ext"]["extras"]["result_codes"] == "tx_bad_auth_extra"){
+                header_text.innerText = `There was an extra signature added to the transaction. Make sure you and the sender have added the proper signatures. If you need help contact Nesho on Discord or @matejmecka on Twitter.`;
+                instance[0].open();
+                return
+              }
+            }
+          
+            header_text.innerText = `Send this to Nesho: ${err["message"]} and mention how to reproduce :)`;
+            instance[0].open();
+            console.log(err);
+            Sentry.captureMessage(err["ext"]["extras"])
+          });
+      } else {
+        if (undefined) {
+          header.innerText = "Ooops. Encountered an error >.<";
+          header_text.innerText =
+            "Invalid Transaction. Make sure the whole url is copied :)";
+        } else {
+          header.innerText = "Warning! Unauthorized transaction";
+          header_text.innerText =
+            "This transaction does not contain the NFT issuers signature. Someone might be attempting to do a phishing attack on you. Send the URL to nesho to check";
+        }
+        instance[0].open();
+      }
+    };
+  </script>
+</html>
