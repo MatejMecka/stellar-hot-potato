@@ -1,0 +1,143 @@
+NETWORK_PASSPHRASE="Test SDF Network ; September 2015"
+SIGNING_KEY="GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD"
+
+[DOCUMENTATION]
+ORG_NAME="Nesho LLC"
+ORG_URL="https://stellarhotpotato.tk"
+ORG_LOGO="https://images-na.ssl-images-amazon.com/images/S/pv-target-images/fc1d7e063c49e5fb46969b37b996203ea25e51b54fd4428a28edee365b659821._RI_.jpg"
+ORG_DESCRIPTION="Nesho LLC is not a real company. It's just one person who's bored and does random coding projects instead of going outside."
+ORG_PHYSICAL_ADDRESS="123 Sesame Street, Berlin, Germany"
+ORG_PHONE_NUMBER="1 (123)-456-7890"
+ORG_KEYBASE="matejmecka"
+ORG_TWITTER="matejmecka"
+ORG_GITHUB="matejmecka"
+ORG_OFFICIAL_EMAIL="matej.plavevski+stellar-hackathon@gmail.com"
+
+
+[[PRINCIPALS]]
+name="Nesho"
+email="matej.plavevski+stellar-hackathon@gmail.com"
+keybase="matejmecka"
+twitter="matejmecka"
+github="matejmecka"
+
+
+[[CURRENCIES]]
+code="HotPotato"
+issuer="GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD"
+display_decimals=2
+desc="Hot Potato is a Social Game for Stellar Enthusiasts"
+image="https://ipfs.io/ipfs/bafybeicbb6ktqgdp4qrqu2choywdke3ap3jwabtrwv4lmk4v3qowo6szfi/Screenshot%202022-04-02%20at%2014.34.35.png"
+
+[[CURRENCIES]]
+code="PotatoZON3G"
+issuer="GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD"
+display_decimals=2
+desc="Hot Potato is a Social Game for Stellar Enthusiasts"
+image="https://ipfs.io/ipfs/bafybeicxvq4tyft76ax7gab4ulcxnpak7jnho7zjyxnrzilpatncdaipka/Iceland.png"
+
+[[CURRENCIES]]
+code="Potato3SVLQ"
+issuer="GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD"
+display_decimals=2
+desc="Hot Potato is a Social Game for Stellar Enthusiasts"
+image="https://ipfs.io/ipfs/bafybeieotlbiuhihevhwxufgjyjcjvw5wprbwsgddy2i7vuerpzmygz4y4/Istanbul.png"
+
+[[CURRENCIES]]
+code="Potato6WO22"
+issuer="GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD"
+display_decimals=2
+desc="Hot Potato is a Social Game for Stellar Enthusiasts"
+image="https://ipfs.io/ipfs/bafybeifq2auip5rfiplhnnvtfvlrbk3wlgqqpsxsjbjvjc63neyhdzm6di/Berlin.png"
+
+[[CURRENCIES]]
+code="PotatoMHQCQ"
+issuer="GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD"
+display_decimals=2
+desc="Hot Potato is a Social Game for Stellar Enthusiasts"
+image="https://ipfs.io/ipfs/bafybeieporvxnexla42q3gpcal57y6d24wrtomv5jmreazlz7gtfn3kc74/Paris.png"
+
+[[CURRENCIES]]
+code="PotatoVMXV5"
+issuer="GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD"
+display_decimals=2
+desc="Hot Potato is a Social Game for Stellar Enthusiasts"
+image="https://ipfs.io/ipfs/bafybeifzea3andbqk5xmhnf7c67f4kdmgrfzcgw5xz3uawvg7ieqaivri4/Vienna.png"
+
+[[CURRENCIES]]
+code="PotatoUGYI2"
+issuer="GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD"
+display_decimals=2
+desc="Hot Potato is a Social Game for Stellar Enthusiasts"
+image="https://ipfs.io/ipfs/bafybeibfcrfjustp5nna7aubaooqdbramusijzl5kbv5smhikbduezfszi/San%20Franisco.png"
+
+[[CURRENCIES]]
+code="PotatoUBYED"
+issuer="GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD"
+display_decimals=2
+desc="Hot Potato is a Social Game for Stellar Enthusiasts"
+image="https://ipfs.io/ipfs/bafybeidiki2bxlmma76pgcfcq23v4zjdtick5ivb5q7ewts2zt3n4bf6ea/Munich.png"
+
+[[CURRENCIES]]
+code="PotatoGDHDC"
+issuer="GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD"
+display_decimals=2
+desc="Hot Potato is a Social Game for Stellar Enthusiasts"
+image="https://ipfs.io/ipfs/bafybeiaoeg56kinzyp6s2zkpv5yefrunldqdv7ihrezqqkdb7kkl76fjj4/Lisbon.png"
+
+[[CURRENCIES]]
+code="PotatoHTGW3"
+issuer="GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD"
+display_decimals=2
+desc="Hot Potato is a Social Game for Stellar Enthusiasts"
+image="https://ipfs.io/ipfs/bafybeiephahbdquwt7rgl2vfbxli4khws7io7xkcbcxq7wv3dhpfxbrxwy/Stockholm.png"
+
+[[CURRENCIES]]
+code="PotatoQM65F"
+issuer="GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD"
+display_decimals=2
+desc="Hot Potato is a Social Game for Stellar Enthusiasts"
+image="https://ipfs.io/ipfs/bafybeie734xdtgwzg3je52qi3y2rpdakvviadujmqxk4yxltbl2gzr4yb4/Tahoe.png"
+
+[[CURRENCIES]]
+code="PotatoST6EL"
+issuer="GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD"
+display_decimals=2
+desc="Hot Potato is a Social Game for Stellar Enthusiasts"
+image="https://ipfs.io/ipfs/bafybeiel7aotmsp2ij374e4cn7q55vsbgc7yixdmz2adkq6utgqhvzcqgi/Yosemite.png"
+
+[[CURRENCIES]]
+code="PotatoBEZNV"
+issuer="GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD"
+display_decimals=2
+desc="Hot Potato is a Social Game for Stellar Enthusiasts"
+image="https://ipfs.io/ipfs/bafybeifpvwnsajp4yjplhjnffw7agclptngpuyj5yvyudsc3wt7amrgbum/Skopje.png"
+
+[[CURRENCIES]]
+code="Potato25A2J"
+issuer="GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD"
+display_decimals=2
+desc="Hot Potato is a Social Game for Stellar Enthusiasts"
+image="https://ipfs.io/ipfs/bafybeiaqnmclsbygphqb5b2pob4yxu4xkstkft6j5a26ofbnxyozjqjblu/Bali.png"
+
+[[CURRENCIES]]
+code="PotatoXDJKX"
+issuer="GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD"
+display_decimals=2
+desc="Hot Potato is a Social Game for Stellar Enthusiasts"
+image="https://ipfs.io/ipfs/bafybeicmxenceku5qttyulvfu33kae7pqj6mtgfwjpheczjhxdurywe5e4/Bali2.png"
+
+[[CURRENCIES]]
+code="Potato2LGOR"
+issuer="GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD"
+display_decimals=2
+desc="Hot Potato is a Social Game for Stellar Enthusiasts"
+image="https://ipfs.io/ipfs/bafybeihlrnewm6yrdpvefup2u46zanis6vkj2lxaysdffvc2rg4gcsduoe/YosemiteWaterfall.png"
+
+[[CURRENCIES]]
+code="PotatoTYTXS"
+issuer="GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD"
+display_decimals=2
+desc="Hot Potato is a Social Game for Stellar Enthusiasts"
+image="https://ipfs.io/ipfs/bafybeie44krtb2q7ubtdpfgoix7gczefhzazfqt42pqjc2zvvmhcuuosgi/Washington.png"
+

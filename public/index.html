@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="https://unpkg.com/@albedo-link/intent@0.11.2/lib/albedo.intent.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+      integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link rel="stylesheet" href="./style.css" />
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"
+    />
+    <title>Hot Potato</title>
+    <meta property="og:title" content="Stellar Hot Potato - Welcome" />
+    <meta property="og:site_name" content="Stellar Hot Potato - Welcome" />
+    <meta property="og:url" content="" />
+    <meta
+      property="og:description"
+      content="Hot Potato is an NFT Game on Stellar that involves you guessed it! Passing an NFT Potato. Come join us, before it's too late and the potato expires :)"
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="https://upload.wikimedia.org/wikipedia/commons/9/98/Kawaii_potato.png"
+    />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-3W5NRBGBVQ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-3W5NRBGBVQ");
+    </script>
+    <script
+      src="https://browser.sentry-cdn.com/6.19.4/bundle.min.js"
+      integrity="sha384-l+UQ7KbPIcq6l4DoWCwMvaOJ0pdJ+oTVGD6GyROFzSriOH1F1f6dl90fOgcigkMX"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      Sentry.init({
+        dsn: "https://a52603c3cb974b34938626e37e6a454a@o1192160.ingest.sentry.io/6313745",
+        release: "hot-potato@1.0.0",
+        integrations: [new Sentry.BrowserTracing()],
+        tracesSampleRate: 1.0,
+      });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/10.0.1/stellar-sdk.js"></script>
+    <script src="../static/utils.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col s12 m6">
+          <h1>Timeline</h1>
+          <div class="timeline"></div>
+        </div>
+        <div class="col s12 m6">
+          <h3 id="person">Time remaining until someone gets burned</h3>
+          <h1 id="countdown">00:00:00</h1>
+          <p id="para1">
+            The rules are simple. Currently [PUBLIC ACCOUNT] is in possession of
+            the hot potato. They will either <b>pass it to someone else</b> or
+            <b>destroy it forever</b> if the timer hits less than
+            <b>24 hours</b>. You can monitor [PREPOSITION] progress by looking
+            at the timeline or following the conversation on Stellar's Global
+            Discord. The full rules can be found
+            <a href="https://www.youtube.com/watch?v=ePGA1a-WsLs">here</a>
+          </p>
+          <p id="para2">
+            If your account is [PUBLIC ACCOUNT] you can pass the potato from
+            here. Before proceeding make sure to enable popups for this website
+            :)
+          </p>
+          <h6 id="para3">
+            <b
+              >When signing the transaction make sure you confirm the
+              transaction and proceed with partial tx.</b
+            >
+          </h6>
+          <div>
+            <input
+              field="text"
+              id="dest-account"
+              placeholder="GCLXKLJXXXXXXXXXXXXXXX"
+            />
+            <button
+              onclick="handleTransaction()"
+              class="waves-effect waves-light btn-large"
+            >
+              Pass Potato
+            </button>
+          </div>
+        </div>
+      </div>
+      <h6>
+        Donations: GBSFMKD63T2WDSZON3GUUJFDAOOUOEHLPECZIMXXQOOGYB6FMYO6Z5ZP |
+        GitHub: MatejMecka/Hot-Potato
+      </h6>
+    </div>
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+      <div class="modal-content">
+        <h4 class="modal-header">Modal Header</h4>
+        <p class="modal-text">A bunch of text</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat"
+          >Close</a
+        >
+      </div>
+    </div>
+  </body>
+  <script>
+    let account = "GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD";
+    const issuer = "GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD";
+    const assetCode = "HotPotato";
+    //const network = "public";
+    //const horizon_url = "https://horizon-public.stellar.org/accounts/";
+    const horizon_url = "https://horizon.stellar.org/accounts/";
+    const stellar_expert_url = "https://stellar.expert/explorer/public/tx/";
+
+    // HTML Elements
+    const para1_elem = document.getElementById("para1");
+    const para2_elem = document.getElementById("para2");
+    const title = document.getElementById("person");
+
+    document.querySelector('meta[property="og:url"]').content =
+      window.location.href;
+
+    function msToTime(duration) {
+      var milliseconds = Math.floor((duration % 1000) / 100),
+        seconds = Math.floor((duration / 1000) % 60),
+        minutes = Math.floor((duration / (1000 * 60)) % 60),
+        hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+
+      if (hours < 0) {
+        title.innerText = "Thanks for playing!";
+        para1.innerText =
+          "Hot Potato has now ended! Thank you all for playing and I hope you enjoyed it";
+        para2.innerHTML =
+          'You can now share your experiences on Stellar Global :D. Hope to see you with a new project in the future :), ';
+        document.querySelector("#dest-account").style.display = "none";
+        document.querySelector(".btn-large").style.display = "none";
+        submit = true;
+        return "Game Over";
+      }
+
+      hours = hours < 10 ? "0" + hours : hours;
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+
+      return `<b>${hours}</b>:<b>${minutes}</b>:<b>${seconds}</b>`;
+    }
+
+    fetch(`${horizon_url}${account}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data["data"]["currentAccount"] == undefined) {
+          // Change Countdown
+          document.getElementById("countdown").innerHTML = "START";
+
+          if (account == issuer) {
+            dest_account = issuer;
+            document.querySelector("#dest-account").style.display = "none";
+          }
+
+          para1_elem.innerHTML = para1_elem.innerHTML.replace(
+            "[PUBLIC ACCOUNT]",
+            "nobody"
+          );
+          para1_elem.innerHTML = para1_elem.innerHTML.replace(
+            "[PREPOSITION]",
+            "the future"
+          );
+
+          document.getElementById("para2").innerHTML =
+            "Since nobody is in posession of a potato, you can go ahead and claim it :)";
+
+          return;
+        }
+
+        const currentOwner = atob(data["data"]["currentAccount"]);
+
+        para1_elem.innerHTML = para1_elem.innerHTML.replace(
+          "[PUBLIC ACCOUNT]",
+          currentOwner
+        );
+        para1_elem.innerHTML = para1_elem.innerHTML.replace(
+          "[PREPOSITION]",
+          "their"
+        );
+        para2_elem.innerText = para2_elem.innerText.replace(
+          "[PUBLIC ACCOUNT]",
+          currentOwner
+        );
+
+        account = currentOwner;
+        let elem = document.getElementById("person");
+        elem.innerHTML = elem.innerHTML.replace(
+          "someone",
+          account.substring(0, 20)
+        );
+        console.log(currentOwner);
+        fetch(`${horizon_url}${currentOwner}/trades?limit=200&order=desc`)
+          .then((res2) => res2.json())
+          .then((data2) => {
+            data2["_embedded"]["records"].forEach((trade) => {
+              console.log(trade);
+              if (
+                trade["counter_asset_code"] == assetCode &&
+                trade["counter_asset_issuer"] == issuer
+              ) {
+                console.log(trade);
+
+                const ledger_date = new Date(trade["ledger_close_time"]);
+
+                setInterval(() => {
+                  const time_diff = new Date() - ledger_date;
+                  const remaining_time = 8.64e7 - time_diff; // 24 hours in milliseconds
+                  const time_left = msToTime(remaining_time);
+                  document.getElementById("countdown").innerHTML = time_left;
+                }, 1000);
+              }
+            });
+          });
+      });
+
+    handleTransaction = function () {
+      let dest_account = document.querySelector("#dest-account").value;
+      let submit = false;
+
+      let elems = document.querySelectorAll(".modal");
+      let instance = M.Modal.init(elems, { dismissible: false });
+      const header = document.querySelector(".modal-header");
+      const header_text = document.querySelector(".modal-text");
+      let lobstr = false;
+
+      
+      header.innerText = "Loading...";
+      header_text.innerHTML = '<div class="progress"><div class="indeterminate"></div></div>'
+      instance[0].open();         
+      
+      albedo
+        .publicKey({
+          token: "gOe2GgetOcIOkllLyKhooElhwICBKF1arhUJAdH1Vs0=",
+        })
+        .then(async function (res) {
+          console.log(res.pubkey, res.signed_message, res.signature);
+
+          if (account !== issuer) {
+            if (res.pubkey == account) {
+              console.log("Valid");
+              fetch(`${horizon_url}${res.pubkey}`)
+                .then((res) => res.json())
+                .then((data) => {
+                  data.signers.forEach((elem) => {
+                    console.log(elem.key);
+                    if (
+                      elem.key ==
+                      "GA2T6GR7VXXXBETTERSAFETHANSORRYXXXPROTECTEDBYLOBSTRVAULT"
+                    ) {
+                      // Send a Request with the XDR to Lobstr Vault and show a notification
+                      lobstr = true;
+                    }
+                  });
+                });
+            } else {
+              header.innerText = "You aren't an owner of a hot potato :(";
+              header_text.innerText =
+                "It looks like you don't own a hot potato. If you've received a link beginning with shrtco.de this is your unique url to receive the potato and confirm the transaction; If this is a mistake, contact @nesho to check";
+              instance[0].open();
+              return;
+            }
+          }
+
+          if (dest_account == "") {
+            dest_account = issuer;
+            submit = true;
+          }
+
+          await fetch(
+            `https://${window.location.hostname}/generate_xdr?source=${res.pubkey}&destination=${dest_account}`,
+            {}
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              const xdr = data.xdr;
+              console.log(xdr);
+              if (xdr == undefined) {
+                header.innerText =
+                  "There was an error with the generation of your transaction";
+                header_text.innerText = `${data.err}.`;
+                instance[0].open();
+              } else {
+                if (lobstr) {
+                  const options = {
+                    method: "POST",
+                    headers: { "content-type": "application/json" },
+                    body: JSON.Stringify({ xdr: xdr }),
+                  };
+
+                  fetch("https://vault.lobstr.co/api/transactions/", options)
+                    .then((response) => response.json())
+                    .then((response) => {
+                      console.log(response);
+                      header.innerText =
+                        "Transaction has been sent to Lobstr Vault!";
+                      header_text.innerText = `Hey there! The transaction has been sent to your phone. For the next steps visit: https://${window.location.hostname}/lobstr-vault`
+                    .catch((err) => {
+                      header.innerText = "Ooops. Encountered an error >.<";
+                      header_text.innerText =
+                        "There was an error submitting to Lobstr Vault. Check with Nesho what went wrong.";
+                    });
+                  instance[0].open();
+
+                  return;
+                })
+              }
+
+                albedo
+                  .tx({
+                    xdr: xdr,
+                    network: "public",
+                    submit: submit,
+                  })
+                  .then(async function (res) {
+                    if (submit == false) {
+                      const full_url = `${
+                        window.location.hostname
+                      }/complete-pass?xdr=${btoa(res.signed_envelope_xdr)}`;
+                      const shortened_url = await shortenUrl(full_url);
+                      header.innerText =
+                        "You are on step closer to sending a potato!";
+                      header_text.innerText = `In order to complete the pass, a signature is required from the recipient to claim the potato. They can do it at the following url: ${shortened_url}`;
+                      instance[0].open();
+                    } else {
+                      header.innerText =
+                        "🎉 Congragulations! You are a proud owner of a potato 🎉";
+                      header_text.innerText =
+                        "You now have 24 hours to pass this potato to someone else. Your goal is to find someone who will accept the potato. Once you find someone, return to this page to generate a transaction that they can use to claim the potato, and for you to win your shiny potato :D";
+                      instance[0].open();
+                    }
+                  })
+                  .catch((err) => {
+                    header.innerText =
+                      "There was an error signing the transaction";
+                    header_text.innerText = `Albedo returned ${err["message"]}. If you think this is a bug contact Nesho`;
+                    instance[0].open();
+                    console.log(err);
+                  });
+              }
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+          header.innerText = "There was an error loading your public key";
+          header_text.innerText = `Albedo returned ${err["message"]}.`;
+          instance[0].open();
+        });
+    };
+    
+    /* TIMELINE CODE */
+
+    const timeline = document.querySelector(".timeline");
+    const colors = ["primary", "danger", "success", "info", "warning"];
+    let pairs = [];
+    let timeline_records = [];
+
+    const generateTimeline = async function (account) {
+      await fetch(
+        `https://horizon.stellar.org/accounts/${account}/trades?limit=200&order=desc`
+      )
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          // Check if there are records
+
+          if (data["_embedded"]["records"].length == 0) {
+            return;
+          }
+
+          data["_embedded"]["records"].forEach((elem) => {
+            pair = { start: elem.counter_account, end: elem.base_account };
+            //console.log(pairs)
+
+            const contains = pairs.some((elem) => {
+              return JSON.stringify(pair) === JSON.stringify(elem);
+            });
+
+            if (
+              elem["counter_asset_code"] == assetCode &&
+              elem["counter_asset_issuer"] == issuer &&
+              !contains
+            ) {
+              const color = colors[Math.floor(Math.random() * colors.length)];
+              const operation_id = new URL(
+                elem["_links"]["operation"]["href"]
+              ).pathname.split("/")[2];
+
+              timeline.innerHTML += `<div class="timeline-container ${color}">
+                                <div class="timeline-icon">
+                                    <img src="https://cdn.glitch.global/ac11709f-7d14-445b-bcb7-6bf482d75734/potato.png?v=1648229207358">
+                                </div>
+                                <div class="timeline-body">
+                                    <h4 class="timeline-title"><span class="badge">Passed: ${moment(
+                                      elem["ledger_close_time"]
+                                    ).fromNow()}</span></h4>
+                                    <p>From: ${elem[
+                                      "counter_account"
+                                    ].substring(0, 20)}<br>To: ${elem[
+                "base_account"
+              ].substring(0, 20)}<p> 
+                                    <p class="timeline-subtitle">Passed on ${moment(
+                                      elem["ledger_close_time"]
+                                    ).format("MMMM Do YYYY, HH:mm:ss")}</p>
+                                </div>
+                            </div>`;
+
+              // Recurse
+              pairs.push(pair);
+              timeline_records.push(elem)
+              return generateTimeline(elem.base_account);
+            }
+          });
+        console.log(timeline_records)
+        // for(var i=0; i < timeline_records.length; i++) { console.log(msToTime(Math.abs(new Date(temp0[i]["ledger_close_time"]) - new Date(temp0[i+1]["ledger_close_time"]))))}
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    };
+
+    generateTimeline(issuer);
+  </script>
+</html>

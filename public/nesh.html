@@ -1,0 +1,49 @@
+<html>
+<head>
+</head>
+<body>
+   <script>
+    let pairs = []
+    const issuer = "GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD"
+    const assetCode = "HotPotato"
+    let recursed = false
+    count = 0
+
+
+
+    const generateTimeline = async function(account){
+        await fetch(`https://horizon.stellar.org/accounts/${account}/trades?limit=200&order=asc`)
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(data){
+            // Check if there are records
+            
+            if(data['_embedded']['records'].length == 0){
+                return
+            }
+
+            data["_embedded"]["records"].forEach((elem) => {
+                pair = {start: elem.counter_account, end: elem.base_account}
+                console.log(pairs)
+
+                const contains = pairs.some(elem => {
+                  return JSON.stringify(pair) === JSON.stringify(elem);
+                });
+
+                if(elem["counter_asset_code"] == assetCode && elem['counter_asset_issuer'] == issuer && !contains){
+                    // Recurse
+                    pairs.push(pair)
+                    return generateTimeline(elem.base_account)
+                    
+                }
+            });
+                
+        })
+        //console.log(pairs)
+        count++;
+    }
+    generateTimeline("GAY2VEWUCDXEJT5E5FMMLIDCE3CXQQYVWSMY7CDYPFEDAYEDOWVKZTKD")
+   </script> 
+</body>
+</html>
